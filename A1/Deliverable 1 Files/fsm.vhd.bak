@@ -71,6 +71,12 @@ begin
 		else
 		    State <= s3;
 		END IF;
+	    when s7 =>
+		If input = STAR_CHARACTER then 
+		    State <= s6;
+		else
+		    State <= s7;
+		END IF;
 	END CASE;
     END IF;
     
