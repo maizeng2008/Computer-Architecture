@@ -69,7 +69,7 @@ begin
 		If input = SLASH_CHARACTER then -- this comment is terminated
 		    State <= s4;
 		else
-		    State <= s3;
+		    State <= s7;
 		END IF;
 	    when s7 =>
 		If input = STAR_CHARACTER then 

@@ -93,7 +93,13 @@ begin
 	    output <= '1';
 	when s7 =>
 	    output <= '1';
-	when others =>
+	when s0 =>
+	    output <= '0';
+	when s1 =>
+	    output <= '0';
+	when s2 =>
+	    output <= '0';
+	when s3 =>
 	    output <= '0';
     END CASE;
 END PROCESS;
