@@ -168,13 +168,67 @@ BEGIN
 
   	REPORT "________________________________________________________________________";
 
-	-- Test 4 using case '//c\n\n'
+	-- Test 5 using case '//c\n\n'
 
 	s_reset <= '1';
 	WAIT FOR 1 * clk_period;
 	s_reset <= '0';
-	WAIT FOR 0 * clk_period;
 
+	REPORT "Case: //c\n\n";
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "First / Output should be '0'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "Output should be '0'" SEVERITY ERROR;
+
+	s_input <= "01100011";
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
+
+	s_input <= NEW_LINE_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "The first \n in the // comment Output should be '1'" SEVERITY ERROR;
+
+	s_input <= NEW_LINE_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "The second \n out the // comment Output should be '0'" SEVERITY ERROR;
+
+  	REPORT "________________________________________________________________________";
+
+	-- Test 6 using case '////c\n'
+
+	s_reset <= '1';
+	WAIT FOR 1 * clk_period;
+	s_reset <= '0';
+
+	REPORT "Case: ////c\n";
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "First / Output should be '0'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "Output should be '0'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "First / Output should be '1'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
+
+	s_input <= "01100011";
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
+
+	s_input <= NEW_LINE_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "The first \n in the // comment Output should be '1'" SEVERITY ERROR;
 
 	WAIT;
 END PROCESS stim_process;
