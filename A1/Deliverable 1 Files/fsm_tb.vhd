@@ -49,7 +49,6 @@ BEGIN
 	s_reset <= '1';
 	WAIT FOR 1 * clk_period;
 	s_reset <= '0';
-	WAIT FOR 0 * clk_period;
 	
 	REPORT "Case: //c";
 	s_input <= SLASH_CHARACTER;
@@ -70,7 +69,6 @@ BEGIN
 	s_reset <= '1';
 	WAIT FOR 1 * clk_period;
 	s_reset <= '0';
-	WAIT FOR 0 * clk_period;
 
 	REPORT "Case: /*c*/";
 
@@ -98,9 +96,8 @@ BEGIN
 
 	-- Test 3 using case '/*c\n*/'
 	s_reset <= '1';
-	WAIT FOR 1 * clk_period;
 	s_reset <= '0';
-	WAIT FOR 0 * clk_period;
+	WAIT FOR 1 * clk_period;
 
 	REPORT "Case: /*c\n*/";
 
@@ -229,6 +226,65 @@ BEGIN
 	s_input <= NEW_LINE_CHARACTER;
 	WAIT FOR 1 * clk_period;
 	ASSERT (s_output = '1') REPORT "The first \n in the // comment Output should be '1'" SEVERITY ERROR;
+
+	-- Test 7 using case '\n/*c*//*c\n*/'
+	s_reset <= '1';
+	WAIT FOR 1 * clk_period;
+	s_reset <= '0';
+
+	REPORT "Case: \n/*c*//*c\n\n*/";
+
+	s_input <= NEW_LINE_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "The first \n out the // comment Output should be '0'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "First / Output should be '0'" SEVERITY ERROR;
+
+	s_input <= STAR_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "After / the * Output should be '0'" SEVERITY ERROR;
+
+	s_input <= "01100011";
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
+
+	s_input <= STAR_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "First / Output should be '0'" SEVERITY ERROR;
+
+	s_input <= STAR_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "After / the * Output should be '0'" SEVERITY ERROR;
+
+	s_input <= "01100011";
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Second sentence, c Output should be '1'" SEVERITY ERROR;
+
+	s_input <= NEW_LINE_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "The first \n in the /* ... */ comment Output should be '1'" SEVERITY ERROR;
+
+	s_input <= NEW_LINE_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "The second \n in the /* ... */ comment Output should be '1'" SEVERITY ERROR;
+
+	s_input <= STAR_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
+
+	s_input <= SLASH_CHARACTER;
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '1') REPORT "Output should be '1'" SEVERITY ERROR;
 
 	WAIT;
 END PROCESS stim_process;

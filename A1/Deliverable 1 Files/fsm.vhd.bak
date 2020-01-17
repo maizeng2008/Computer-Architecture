@@ -58,7 +58,11 @@ begin
 		    State <= s7;
     		END IF;
 	    when s4 => -- This is the state when the comment is terminated, it will lead to s0
-		State <= s0;
+		If input = STAR_CHARACTER then
+		    State <= s0;
+		else
+		    State <= s0;
+    		END IF;
 	    when s5 =>
 		If input = NEW_LINE_CHARACTER then
 		    State <= s4;
@@ -93,7 +97,13 @@ begin
 	    output <= '1';
 	when s7 =>
 	    output <= '1';
-	when others =>
+	when s0 =>
+	    output <= '0';
+	when s1 =>
+	    output <= '0';
+	when s2 =>
+	    output <= '0';
+	when s3 =>
 	    output <= '0';
     END CASE;
 END PROCESS;
