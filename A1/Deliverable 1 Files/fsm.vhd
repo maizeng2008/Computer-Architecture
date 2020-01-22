@@ -14,9 +14,9 @@ end comments_fsm;
 architecture behavioral of comments_fsm is
 
 -- The ASCII value for the '/', '*' and end-of-line characters
-constant SLASH_CHARACTER : std_logic_vector(7 downto 0) := "00101111";
-constant STAR_CHARACTER : std_logic_vector(7 downto 0) := "00101010";
-constant NEW_LINE_CHARACTER : std_logic_vector(7 downto 0) := "00001010";
+CONSTANT SLASH_CHARACTER : std_logic_vector(7 downto 0) := "00101111";
+CONSTANT STAR_CHARACTER : std_logic_vector(7 downto 0) := "00101010";
+CONSTANT NEW_LINE_CHARACTER : std_logic_vector(7 downto 0) := "00001010";
 
 TYPE State_type IS(s0, s1, s2, s3, s4, s5, s6, s7); --Define the states
 SIGNAL State: State_Type; --Create a signal that uses the different states
@@ -58,7 +58,7 @@ begin
 		    State <= s7;
     		END IF;
 	    when s4 => -- This is the state when the comment is terminated, it will lead to s0
-		State <= s0;
+		    State <= s0;
 	    when s5 =>
 		If input = NEW_LINE_CHARACTER then
 		    State <= s4;
@@ -94,7 +94,7 @@ begin
 	when s7 =>
 	    output <= '1';
 	when s0 =>
-	    output <= '0';
+	  output <= '0';
 	when s1 =>
 	    output <= '0';
 	when s2 =>
